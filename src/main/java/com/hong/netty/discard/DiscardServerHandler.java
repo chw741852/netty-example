@@ -1,4 +1,4 @@
-package com.hong.netty;
+package com.hong.netty.discard;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

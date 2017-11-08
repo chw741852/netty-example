@@ -1,4 +1,4 @@
-package com.hong.netty;
+package com.hong.netty.discard;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

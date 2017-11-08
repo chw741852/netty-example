@@ -10,7 +10,6 @@ import io.netty.channel.ChannelHandlerContext;
  * Created by Hongwei on 2015/10/9.
  */
 public class TimeServerHandler extends ChannelHandlerAdapter {
-    @Override
     public void channelActive(final ChannelHandlerContext ctx) {
         final ByteBuf time = ctx.alloc().buffer(4);
         time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));

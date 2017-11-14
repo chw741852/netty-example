@@ -1,18 +1,16 @@
 package com.hong.netty.discard;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 /**
  * Created by Hongwei on 2015/10/9.
  * Handlers a server-side channel
  */
-public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
+public class DiscardServerHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ((ByteBuf) msg).release();
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
     }
 
     @Override

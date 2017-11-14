@@ -8,6 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 /**
  * Created by Hongwei on 2015/10/9.
@@ -15,8 +17,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class DiscardServer {
     private int port;
+    private String host;
 
-    public DiscardServer(int port) {
+    public DiscardServer(String host, int port) {
+        this.host = host;
         this.port = port;
     }
 
@@ -27,17 +31,16 @@ public class DiscardServer {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline().addLast(new DiscardServerHandler());
                         }
-                    })
-                    .option(ChannelOption.SO_BACKLOG, 128)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                    });
 
             // Bind and start to accept incoming connections.
-            ChannelFuture channelFuture = bootstrap.bind(port).sync();
+            ChannelFuture channelFuture = bootstrap.bind(host, port).sync();
 
             // Wait until the server socket is closed.
             // In this example, this does not happen, but you can do that to gracefully
@@ -57,6 +60,6 @@ public class DiscardServer {
             port = 8080;
         }
 
-        new DiscardServer(port).run();
+        new DiscardServer("127.0.0.1", port).run();
     }
 }
